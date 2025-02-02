@@ -3,7 +3,7 @@ import mysql.connector
 class Conection:
     def add_query (self, query):
         try:
-            conect = mysql.connector.connect(user="root", password="oLrRjOULKdcSJTgdjdkXSSsiLMDxRueh", host="roundhouse.proxy.rlwy.net", database='railway', port='36014', auth_plugin='mysql_native_password')
+            conect = mysql.connector.connect(user="root", password="SqJCPevborCetiiSZKrHlpojtDLprwNe", host="junction.proxy.rlwy.net", database='railway', port='19681', auth_plugin='mysql_native_password')
             cursor = conect.cursor()
             inserir = query
             cursor.execute(inserir)
@@ -18,7 +18,7 @@ class Conection:
 
     def get_query(self, query):
         try:
-            conect = mysql.connector.connect(user="root", password="oLrRjOULKdcSJTgdjdkXSSsiLMDxRueh", host="roundhouse.proxy.rlwy.net", database='railway', port='36014', auth_plugin='mysql_native_password')
+            conect = mysql.connector.connect(user="root", password="SqJCPevborCetiiSZKrHlpojtDLprwNe", host="junction.proxy.rlwy.net", database='railway', port='19681', auth_plugin='mysql_native_password')
             cursor = conect.cursor()
             inserir = query
             cursor.execute(inserir)
@@ -41,7 +41,7 @@ class Conection:
 
     def get_list (self, query):
         try:
-            conect = mysql.connector.connect(user="root", password="oLrRjOULKdcSJTgdjdkXSSsiLMDxRueh", host="roundhouse.proxy.rlwy.net", database='railway', port='36014', auth_plugin='mysql_native_password')
+            conect = mysql.connector.connect(user="root", password="SqJCPevborCetiiSZKrHlpojtDLprwNe", host="junction.proxy.rlwy.net", database='railway', port='19681', auth_plugin='mysql_native_password')
             cursor = conect.cursor()
             inserir = query
             cursor.execute(inserir)
