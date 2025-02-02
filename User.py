@@ -28,10 +28,11 @@ class User:
         return response
 
     def loginUser (self):
-        query = f'SELECT  FROM `User` WHERE email = "{self.email}";'
+        query = f'SELECT authentic FROM `User` WHERE email = "{self.email}";'
         conexao = Conection()
         exis = conexao.get_query(query)
         password = self.password + str(exis[0])
+        print(password)
         password = hash_string(password)
         print(exis[0])
         print(password)
