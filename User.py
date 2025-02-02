@@ -2,12 +2,12 @@ from Conection import *
 import hashlib
 
 class User:
-    def __init__(self,email, password ='', name = '', user = 'test', autentic = 0):
+    def __init__(self,email, password ='', name = '', user = 'test', authentic = 0):
         self.name = name
         self.user = user
         self.password = password
         self.email = email
-        self.autentic = autentic
+        self.authentic = authentic
 
     def checkUser (self):
         query = f'SELECT id FROM `User` WHERE email = "{self.email}";'
@@ -22,13 +22,13 @@ class User:
         return exis
 
     def add_user (self):
-        query = f"INSERT INTO User (name, permission, password, email, autentic) VALUES ('{self.name}', '{self.user}', '{self.password}', '{self.email}', '{self.autentic}');"
+        query = f"INSERT INTO User (name, permission, password, email, authentic) VALUES ('{self.name}', '{self.user}', '{self.password}', '{self.email}', '{self.authentic}');"
         conexao = Conection()
         response = conexao.add_query(query)
         return response
 
     def loginUser (self):
-        query = f'SELECT autentic FROM `User` WHERE email = "{self.email}";'
+        query = f'SELECT  FROM `User` WHERE email = "{self.email}";'
         conexao = Conection()
         exis = conexao.get_query(query)
         password = self.password + str(exis[0])
@@ -40,7 +40,7 @@ class User:
         return exis
 
     def mudarSenha (self, novaSenha, auti):
-        query = f"UPDATE `User` SET Password = '{novaSenha}', Autentic = '{auti}' WHERE Email = '{self.email}'"
+        query = f"UPDATE `User` SET Password = '{novaSenha}', Authentic = '{auti}' WHERE Email = '{self.email}'"
         conexao = Conection()
         response = conexao.add_query(query)
         return response
