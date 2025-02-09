@@ -206,7 +206,7 @@ def verificaToken ():
         return jsonify({'status': True})
     return jsonify({'status': False})
 
-@app.route('/excluiToken', methods=['POST'])
+@app.route('/deleteToken', methods=['POST'])
 def excluiToken ():
     code = request.json.get('key')
     print(code)
