@@ -21,6 +21,12 @@ class User:
         exis = conexao.get_query(query)
         return exis
 
+    def checkUserPermission (self):
+        query = f'SELECT permission FROM `User` WHERE Email = "{self.email}";'
+        conexao = Conection()
+        exis = conexao.get_query(query)
+        return exis
+
     def add_user (self):
         query = f"INSERT INTO User (name, permission, password, email, authentic) VALUES ('{self.name}', '{self.user}', '{self.password}', '{self.email}', '{self.authentic}');"
         conexao = Conection()

@@ -185,12 +185,38 @@ def confereLog ():
     code = int(code)
     if payload['code'] == code:
         #definir login
-        resp = Token(payload['ids'], secretKey)
-        resposta = resp.cadastrarToken(payload['emailies'])
+        resp = Token(payload['id'], secretKey)
+        resposta = resp.cadastrarToken(payload['email'])
 
         return jsonify({'status': True, 'resp': resposta})
     else:
         return jsonify({'status': 'código errado'})
+
+@app.route('/confirmAdm', methods=['POST'])
+def confirmAdm ():
+    pack = request.json.get('token')
+    token = pack['key']
+    print(token)
+
+    # descriptografando o token de acesso
+    global secretKey
+    try:
+        payload = jwt.decode(token, secretKey, algorithms=['HS256'])  # Token válido, realizar ações necessárias
+
+        user = User(payload['email'])
+        permission = user.checkUserPermission()
+
+        print(payload)
+        print(permission[0])
+
+        if permission[0] == 'admin':
+            return jsonify({'status': True})
+        return jsonify({'status': False })
+    except ExpiredSignatureError:  # Token expirado, tratar de acordo com as regras da aplicação
+        return jsonify({'status': False})
+    except InvalidSignatureError:  # Token inválido, tratar de acordo com as regras da aplicação
+        return jsonify({'status': False})
+
 
 @app.route('/verificaToken', methods=['POST'])
 def verificaToken ():
