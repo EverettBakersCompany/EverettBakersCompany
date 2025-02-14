@@ -159,7 +159,7 @@ def login ():
         s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))
 
         global secretKey
-        payload = {'code': code, 'ids': check[0], 'emailies': check[1]}
+        payload = {'code': code, 'id': check[0], 'email': check[1]}
         token = jwt.encode(payload, secretKey, algorithm='HS256')
 
         # calculo de vencimento
@@ -196,7 +196,6 @@ def confereLog ():
 def confirmAdm ():
     pack = request.json.get('token')
     token = pack['key']
-    print(token)
 
     # descriptografando o token de acesso
     global secretKey
