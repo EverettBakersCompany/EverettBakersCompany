@@ -30,7 +30,6 @@ class Token:
         query = f'SELECT code, vencimento, fk FROM `Token` WHERE code = "{code}";'
         conexao = Conection()
         exis = conexao.get_query(query)
-        print(exis)
         return exis
 
     def excluirToken (self, code):

@@ -15,6 +15,8 @@ import random
 
 from User import *
 from Token import *
+from Product import *
+from Type import *
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -215,6 +217,28 @@ def confirmAdm ():
         return jsonify({'status': False})
     except InvalidSignatureError:  # Token inválido, tratar de acordo com as regras da aplicação
         return jsonify({'status': False})
+
+@app.route('/getProd', methods=['POST'])
+def getProd ():
+    response = tokenValidation()
+    print(response)
+    if response:
+        try:
+            product = Product().getProducts()
+            #print(product)
+            if product:
+                getTypesBase(product)
+                print(product)
+                return jsonify({'status': True, 'products': product})
+        except:
+            return jsonify({'status': False})
+    return jsonify({'status': False})
+
+
+def getTypesBase (product):
+    for i in product:
+        type = Type(i['type'])
+        i['type'] = type.getTypeId()
 
 
 @app.route('/verificaToken', methods=['POST'])
@@ -420,30 +444,18 @@ def confereCodeEmail ():
         return jsonify({'status': False, 'resp': 'código espirado ou incorreto'})
 
 #funções avulsas
-def tokenValidation (token, mandar=False):
-    chave = token['key']
-    vencimento = token['down']
-
-    #checando data
-    to_day = datetime.today()
-    vence = date_parser.parse(vencimento)
-    vence = datetime.date(vence)
-    to_day = datetime.date(to_day)
-
-    if to_day > vence:
-        print('token vencido')
-        return False
-    else:
-        print('token dentro da data')
-        payload = jwt.decode(chave, secretKey, algorithms=['HS256'])
-        user = User(payload['email'])
-        if user.checkUser():
-            if mandar:
-                return payload['email'], payload['user_id']
-            else:
-                return True
-        else:
+def tokenValidation ():
+    code = request.json.get('token')
+    codeN = code['key']
+    token = Token()
+    response = token.trazerCorrespondencias(codeN)
+    print(response)
+    if response:
+        if response[1] < date.today():
+            token.excluirToken(response[0])
             return False
+        return True
+    return False
 
 def hash_string(string):
     hash_object = hashlib.sha256(string.encode())
