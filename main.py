@@ -212,11 +212,11 @@ def confirmAdm ():
 
         if permission[0] == 'admin':
             return jsonify({'status': True})
-        return jsonify({'status': True })
+        return jsonify({'status': False })
     except ExpiredSignatureError:  # Token expirado, tratar de acordo com as regras da aplicação
-        return jsonify({'status': True})
+        return jsonify({'status': False})
     except InvalidSignatureError:  # Token inválido, tratar de acordo com as regras da aplicação
-        return jsonify({'status': True})
+        return jsonify({'status': False})
 
 @app.route('/getProd', methods=['POST'])
 def getProd ():
