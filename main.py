@@ -256,12 +256,24 @@ def cadProd ():
             return jsonify({'status': False})
         return jsonify({'status': False, 'error': 'produto já cadastrado'})
 
+#-------------types-----------------------------
+
 def getTypesBase (product):
     for i in product:
         type = Type(i['type'])
         i['type'] = type.getTypeId()
 
+@app.route('/getTypes', methods=['POST'])
+def getTypes ():
+    response = tokenValidation()
+    if response:
+        type = Type()
+        listType = type.getTypeNames()
+        print(listType)
+        return jsonify({'status': True, 'listType': listType})
+    return jsonify({'status': False})
 
+#-----token----------------
 @app.route('/verificaToken', methods=['POST'])
 def verificaToken ():
     code = request.json.get('token')

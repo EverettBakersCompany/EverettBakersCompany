@@ -15,3 +15,13 @@ class Type():
         conexao = Conection()
         exis = conexao.get_query(query)
         return exis[0]
+
+    def getTypeNames (self):
+        query = f'SELECT name FROM `Type` ;'
+        conexao = Conection()
+        exis = conexao.get_list(query)
+
+        passList = []
+        for i in exis:
+            passList.append(i[0])
+        return passList
