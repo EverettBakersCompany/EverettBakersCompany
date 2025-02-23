@@ -62,11 +62,11 @@ def register ():
         print(code)
 
         # enviar email
-        corpo_email = f"<p>Olá, esse é seu código de verificação é <b>{code}</b>, ele vai expirar em 5 minutos</p>"
+        corpo_email = f"<p>Hi, your verification code is <b>{code}</b>, it will expire in 5 minutes</p>"
 
         msg = email.message.Message()
         print(msg)
-        msg['Subject'] = "Código Everett"
+        msg['Subject'] = "Code Everett"
         msg['From'] = 'everettbakersco@gmail.com'
         msg['To'] = f'{Email}'
         password = 'dhly dmqw hhgk ddvc'
@@ -143,11 +143,11 @@ def login ():
         print(code)
 
         # enviar email
-        corpo_email = f"<p>Olá, seu código de verificação é <b>{code}</b>, ele vai expirar em 5 minutos</p>"
+        corpo_email = f"<p>Hi, your verification code is <b>{code}</b>, it will expire in 5 minutes</p>"
 
         msg = email.message.Message()
         print(msg)
-        msg['Subject'] = "Código Everett"
+        msg['Subject'] = "Code Everett"
         msg['From'] = 'everettbakersco@gmail.com'
         msg['To'] = f'{Email}'
         password = 'dhly dmqw hhgk ddvc'
