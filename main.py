@@ -234,6 +234,27 @@ def getProd ():
             return jsonify({'status': False})
     return jsonify({'status': False})
 
+@app.route('/cadProd', methods=['POST'])
+def cadProd ():
+    response = tokenValidation()
+    name = request.json.get('name')
+    price = request.json.get('price')
+    type = request.json.get('type')
+    image = request.json.get('image')
+    print(name, price, type, image)
+    print(response)
+    if response:
+        product = Product().getProductName(name)
+        print(product)
+        if product == False:
+            idType = Type().getTypeName(type)
+            print(idType)
+            product = Product().cadProduct(name, idType, price, image)
+            print(product)
+            if product:
+                return jsonify({'status': True})
+            return jsonify({'status': False})
+        return jsonify({'status': False, 'error': 'produto já cadastrado'})
 
 def getTypesBase (product):
     for i in product:
