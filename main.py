@@ -17,6 +17,7 @@ from User import *
 from Token import *
 from Product import *
 from Type import *
+from Orders import *
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -218,6 +219,17 @@ def confirmAdm ():
     except InvalidSignatureError:  # Token inválido, tratar de acordo com as regras da aplicação
         return jsonify({'status': False})
 
+@app.route('/updateName', methods=['POST'])
+def updateName ():
+    response = tokenValidationId()
+    if response:
+        name = request.json.get('name')
+        user = User().updateName(name, response)
+        if user:
+            return jsonify({'status': True})
+    return jsonify({'status': False})
+
+#--produto--
 @app.route('/getProd', methods=['POST'])
 def getProd ():
     response = tokenValidation()
@@ -299,6 +311,40 @@ def excluiToken ():
         return jsonify({'status': True})
     return jsonify({'status': False})
 
+#Orders------------------------------------------
+@app.route('/addOrder', methods=['POST'])
+def addOrder ():
+    response = tokenValidationId()
+    if response:
+        customer = request.json.get('customer')
+        address = request.json.get('address')
+        items = request.json.get('items')
+        schedule = request.json.get('schedule')
+        idUser = response
+
+        order = Orders(address, schedule, idUser)
+        order.addOrder(items)
+        return jsonify({'status': True})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/getOrder', methods=['POST'])
+def getOrder ():
+    response = tokenValidationId()
+    if response:
+        order = Orders()
+        resp = order.getOrders()
+        return jsonify({'status': True, 'orders': resp})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/deleteOrder', methods=['POST'])
+def deleteOrder ():
+    response = tokenValidationId()
+    orderId = request.json.get('order_id')
+    if response:
+        order = Orders()
+        resp = order.deleteOrders(orderId)
+        return jsonify({'status': True, 'orders': resp})
+    return jsonify({'status': False, 'error': 'token not found'})
 
 @app.route('/code', methods=['POST'])
 def code ():
@@ -488,6 +534,19 @@ def tokenValidation ():
             token.excluirToken(response[0])
             return False
         return True
+    return False
+
+def tokenValidationId ():
+    code = request.json.get('token')
+    codeN = code['key']
+    token = Token()
+    response = token.trazerCorrespondencias(codeN)
+    print(response)
+    if response:
+        if response[1] < date.today():
+            token.excluirToken(response[0])
+            return False
+        return response[2]
     return False
 
 def hash_string(string):

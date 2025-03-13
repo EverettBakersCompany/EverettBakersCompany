@@ -16,6 +16,19 @@ class Conection:
             print(erro)
             return False
 
+    def query_last_id(self,query):
+        conect = mysql.connector.connect(user="root", password="SqJCPevborCetiiSZKrHlpojtDLprwNe",
+                                         host="junction.proxy.rlwy.net", database='railway', port='19681',
+                                         auth_plugin='mysql_native_password')
+        cursor = conect.cursor()
+        inserir = query
+        cursor.execute(inserir)
+        order_id = cursor.lastrowid
+        conect.commit()
+        cursor.close()
+        conect.close()
+        return order_id
+
     def get_query(self, query):
         try:
             conect = mysql.connector.connect(user="root", password="SqJCPevborCetiiSZKrHlpojtDLprwNe", host="junction.proxy.rlwy.net", database='railway', port='19681', auth_plugin='mysql_native_password')

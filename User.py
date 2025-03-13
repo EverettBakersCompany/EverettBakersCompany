@@ -2,7 +2,7 @@ from Conection import *
 import hashlib
 
 class User:
-    def __init__(self,email, password ='', name = '', user = 'test', authentic = 0):
+    def __init__(self,email = '', password ='', name = '', user = 'test', authentic = 0):
         self.name = name
         self.user = user
         self.password = password
@@ -52,8 +52,8 @@ class User:
         response = conexao.add_query(query)
         return response
 
-    def mudarNome (self, novoNome):
-        query = f"UPDATE `User` SET Name = '{novoNome}' WHERE Email = '{self.email}'"
+    def updateName (self, newName, userID):
+        query = f"UPDATE `User` SET name = '{newName}' WHERE id = {userID} "
         conexao = Conection()
         response = conexao.add_query(query)
         return response
