@@ -18,6 +18,7 @@ from Token import *
 from Product import *
 from Type import *
 from Orders import *
+from Messages import *
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -344,6 +345,56 @@ def deleteOrder ():
         order = Orders()
         resp = order.deleteOrders(orderId)
         return jsonify({'status': True, 'orders': resp})
+    return jsonify({'status': False, 'error': 'token not found'})
+#--messages--
+
+@app.route('/addMessage', methods=['POST'])
+def addMessage ():
+    response = tokenValidationId()
+    message = request.json.get('message')
+    if response:
+        msn = Messages().addMessageUser(message, response)
+        if msn:
+            return jsonify({'status': True})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/addMessageADM', methods=['POST'])
+def addMessageADM ():
+    response = tokenValidationId()
+    message = request.json.get('message')
+    user_id = request.json.get('user_id')
+    if response:
+        msn = Messages().addMessageAdm(message, user_id)
+        if msn:
+            return jsonify({'status': True})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/getMessages', methods=['POST'])
+def getMessages ():
+    response = tokenValidationId()
+    if response:
+        msn = Messages().getMessages()
+        if msn:
+            return jsonify({'status': True, 'message': msn})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/getMessagesID', methods=['POST'])
+def getMessagesID ():
+    response = tokenValidationId()
+    if response:
+        msn = Messages().getMessagesID(response)
+        if msn:
+            return jsonify({'status': True, 'message': msn})
+    return jsonify({'status': False, 'error': 'token not found'})
+
+@app.route('/resetMessage', methods=['POST'])
+def resetMessage ():
+    response = tokenValidation()
+    if response:
+        userid = request.json.get('userid')
+        msn = Messages().deleteMessage(userid)
+        if msn:
+            return jsonify({'status': True, 'message': msn})
     return jsonify({'status': False, 'error': 'token not found'})
 
 @app.route('/code', methods=['POST'])
