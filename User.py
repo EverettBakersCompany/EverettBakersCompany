@@ -21,8 +21,8 @@ class User:
         exis = conexao.get_query(query)
         return exis
 
-    def checkUserPermission (self):
-        query = f'SELECT permission FROM `User` WHERE Email = "{self.email}";'
+    def checkUserPermission (self, ID):
+        query = f'SELECT permission FROM `User` WHERE id = {ID};'
         conexao = Conection()
         exis = conexao.get_query(query)
         return exis
