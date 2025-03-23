@@ -183,7 +183,6 @@ def confirmAdm ():
         try:
             user = User()
             permission = user.checkUserPermission(response)
-            print('estado do ADM-----------------', permission[0])
             if permission[0] == 'admin':
                 return jsonify({'status': True})
             return jsonify({'status': False })
@@ -210,10 +209,12 @@ def getProd ():
     if response:
         try:
             product = Product().getProducts()
+            print(product)
             if product:
-                getTypesBase(product)
+                #getTypesBase(product)
                 return jsonify({'status': True, 'products': product})
         except:
+            print('error')
             return jsonify({'status': False})
     return jsonify({'status': False})
 
@@ -236,11 +237,6 @@ def cadProd ():
 
 #-------------types-----------------------------
 
-def getTypesBase (product):
-    for i in product:
-        type = Type(i['type'])
-        i['type'] = type.getTypeId()
-
 @app.route('/getTypes', methods=['POST'])
 def getTypes ():
     response = tokenValidation()
@@ -254,7 +250,6 @@ def getTypes ():
 @app.route('/verificaToken', methods=['POST'])
 def verificaToken ():
     response = tokenValidation()
-    print('resposta do verifica token', response)
     return jsonify({'status': response})
 
 @app.route('/deleteToken', methods=['POST'])
@@ -425,32 +420,24 @@ def confereCodeEmail ():
 #funções avulsas
 def tokenValidation ():
     code = request.json.get('token')
-    print('esse é o código lido no token validation', code)
     codeN = code['key']
-    print('code N     ', codeN)
     token = Token()
     response = token.trazerCorrespondencias(codeN)
-    print(response)
     if response:
         if response[1] < date.today():
-            print('excluir')
             token.excluirToken(response[0])
             return False
-        print(True)
         return True
     return False
 
 def tokenValidationId ():
     code = request.json.get('token')
-    print('esse é o código lido no token validation----- ID', code)
     codeN = code['key']
-    print('code N---------ID     ', codeN)
     token = Token()
     response = token.trazerCorrespondencias(codeN)
     if response:
         if response[1] < date.today():
             token.excluirToken(response[0])
-            print('excluir------ID')
             return False
         response[2]
         return response[2]

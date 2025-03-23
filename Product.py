@@ -1,22 +1,36 @@
 from Conection import *
 
 class Product:
-    def getProducts (self):
-        query = f'SELECT * FROM `Products`;'
+    def getProducts(self):
+        query = '''
+        SELECT 
+            Products.id, 
+            Products.name, 
+            Products.type, 
+            Products.price, 
+            Products.image, 
+            Type.name as type_name
+        FROM 
+            Products
+        INNER JOIN 
+            Type ON Products.type = Type.id;
+        '''
+
         conexao = Conection()
         exis = conexao.get_list(query)
 
         arrayObj = []
-        objTransition = {}
         for i in exis:
             objTransition = {
                 'id': i[0],
                 'name': i[1],
-                'type': i[2],
                 'price': i[3],
-                'imgSrc': i[4]
+                'imgSrc': i[4],
+                'type': i[5]  # Adicionando o nome do tipo ao objeto
             }
             arrayObj.append(objTransition)
+
+        print(arrayObj)
         return arrayObj
 
     def getProductName (self, name):
