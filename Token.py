@@ -17,6 +17,8 @@ class Token:
         print(encoder)
         token = jwt.encode(encoder, self.key, algorithm='HS256')
 
+        print(token)
+
         query = f"INSERT INTO Token (fk, code, vencimento) VALUES ('{self.fk}', '{token}', '{to_day + td}');"
         conexao = Conection()
         response = conexao.add_query(query)

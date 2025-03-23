@@ -167,8 +167,10 @@ def confereLog ():
     code = int(code)
     if payload['code'] == code:
         #definir login
+        print(payload['id'])
         resp = Token(payload['id'], secretKey)
         resposta = resp.cadastrarToken(payload['email'])
+        print(resposta)
 
         return jsonify({'status': True, 'resp': resposta})
     else:
@@ -209,7 +211,6 @@ def getProd ():
     if response:
         try:
             product = Product().getProducts()
-            print(product)
             if product:
                 #getTypesBase(product)
                 return jsonify({'status': True, 'products': product})

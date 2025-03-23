@@ -30,7 +30,6 @@ class Product:
             }
             arrayObj.append(objTransition)
 
-        print(arrayObj)
         return arrayObj
 
     def getProductName (self, name):
